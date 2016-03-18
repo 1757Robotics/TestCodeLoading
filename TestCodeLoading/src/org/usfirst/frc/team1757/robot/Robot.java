@@ -23,6 +23,7 @@ public class Robot extends IterativeRobot {
     SendableChooser chooser;
     
     Joystick gamepad;
+    Joystick buttons;
     
 	double breachSpeed;
 	boolean isBreaching;
@@ -40,6 +41,7 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putData("Auto choices", chooser);
         
         gamepad = new Joystick(0);
+        buttons = new Joystick(1);
         talon4 = new CANTalon(4);
 		talon4.set(0);
 		talon4.setInverted(false);	
@@ -90,7 +92,7 @@ public class Robot extends IterativeRobot {
     }
     
     public void doBreach() {
-		if (gamepad.getRawAxis(2) > .2) {
+		/*if (gamepad.getRawAxis(2) > .2) {
 			breachSpeed -= 0.01;
 			System.out.println("Decrementing breachSpeed..." + breachSpeed);
 			breachSpeed = Math.max(-1, breachSpeed);
@@ -108,7 +110,21 @@ public class Robot extends IterativeRobot {
 		}
 		
 		SmartDashboard.putNumber("Breach-breachSpeed", breachSpeed);
-		SmartDashboard.putBoolean("Breach-isBreaching?", isBreaching);
+		SmartDashboard.putBoolean("Breach-isBreaching?", isBreaching);*/
+    	
+    	if (buttons.getRawButton(1)) {
+    		System.out.println("Button 1");
+    	} else if (buttons.getRawButton(2)) {
+    		System.out.println("Button 2");
+    	} else if (buttons.getRawButton(3)) {
+    		System.out.println("Button 3");
+    	} else if (buttons.getRawButton(4)) {
+    		System.out.println("Button 4");
+    	} else if (buttons.getRawButton(5)) {
+    		System.out.println("Button 5");
+    	} else if (buttons.getRawButton(6)) {
+    		System.out.println("Button 6");
+    	}
 		
 	}  
 }
