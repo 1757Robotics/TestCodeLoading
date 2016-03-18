@@ -4,7 +4,6 @@ package org.usfirst.frc.team1757.robot;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -15,17 +14,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * creating this project, you must also update the manifest file in the resource
  * directory.
  */
+
 public class Robot extends IterativeRobot {
-	
-	double breachSpeed;
-	boolean isBreaching;
-	
-	static CANTalon talon4;
-	
-	static {
-		talon4 = new CANTalon(4);
-		talon4.setInverted(false);	
-	}
 	
     final String defaultAuto = "Default";
     final String customAuto = "My Auto";
@@ -33,7 +23,11 @@ public class Robot extends IterativeRobot {
     SendableChooser chooser;
     
     Joystick gamepad;
-    Breach breach;
+    
+	double breachSpeed;
+	boolean isBreaching;
+	
+	CANTalon talon4;
 	
     /**
      * This function is run when the robot is first started up and should be
@@ -46,7 +40,9 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putData("Auto choices", chooser);
         
         gamepad = new Joystick(0);
-        
+        talon4 = new CANTalon(4);
+		talon4.set(0);
+		talon4.setInverted(false);	
     }
     
 	/**
@@ -83,30 +79,7 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
-    	
-		if (gamepad.getRawAxis(2) > 0) {
-			breachSpeed -= 0.01;
-			Timer.delay(0.05);
-			System.out.println("Decrementing breachSpeed..." + breachSpeed);
-			breachSpeed = Math.max(-1, breachSpeed);
-		} else if (gamepad.getRawAxis(3) > 0) {
-			breachSpeed += 0.01;
-			Timer.delay(0.05);
-			System.out.println("Incrementing breachSpeed..." + breachSpeed);
-			breachSpeed = Math.min(1, breachSpeed);
-		} 
-		
-		if (gamepad.getRawButton(1)) {
-			talon4.set(breachSpeed);
-		} else {
-			talon4.set(0);
-			isBreaching = false;
-		}
-		
-		
-		
-		SmartDashboard.putNumber("Breach-breachSpeed", breachSpeed);
-		SmartDashboard.putBoolean("Breach-isBreaching?", isBreaching);
+    	doBreach();
     }
     
     /**
@@ -116,4 +89,26 @@ public class Robot extends IterativeRobot {
     
     }
     
+    public void doBreach() {
+		if (gamepad.getRawAxis(2) > .2) {
+			breachSpeed -= 0.01;
+			System.out.println("Decrementing breachSpeed..." + breachSpeed);
+			breachSpeed = Math.max(-1, breachSpeed);
+		} else if (gamepad.getRawAxis(3) > .2) {
+			breachSpeed += 0.01;
+			System.out.println("Incrementing breachSpeed..." + breachSpeed);
+			breachSpeed = Math.min(1, breachSpeed);
+		} 
+
+		if (gamepad.getRawButton(1)) {
+			talon4.set(breachSpeed);
+		} else {
+			talon4.set(0);
+			isBreaching = false;
+		}
+		
+		SmartDashboard.putNumber("Breach-breachSpeed", breachSpeed);
+		SmartDashboard.putBoolean("Breach-isBreaching?", isBreaching);
+		
+	}  
 }
