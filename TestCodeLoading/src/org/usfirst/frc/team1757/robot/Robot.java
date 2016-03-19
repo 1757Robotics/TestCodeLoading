@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends IterativeRobot {
 
-	Joystick gamepad;
+	//Joystick gamepad;
 	Joystick buttons;
 	
 	double motorSpeed;
@@ -31,8 +31,8 @@ public class Robot extends IterativeRobot {
 	 */
 	public void robotInit() {
 
-		gamepad = new Joystick(0);
-		buttons = new Joystick(1);
+		//gamepad = new Joystick(0);
+		buttons = new Joystick(0);
 		
 		talon4 = new CANTalon(4);
 		talon4.set(0);
@@ -102,10 +102,10 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void testJoystickButtons()  {
-		if (gamepad.getRawButton(1)) {
+		if (buttons.getRawButton(1)) {
 			motorSpeed = 0;
 			motorRunnable.changeMotorSpeed(motorSpeed);
-		} if (gamepad.getRawButton(2)) {
+		} if (buttons.getRawButton(2)) {
 			motorSpeed = .5;
 			motorRunnable.changeMotorSpeed(motorSpeed);
 		}
