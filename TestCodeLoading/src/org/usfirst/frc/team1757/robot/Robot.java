@@ -20,7 +20,8 @@ public class Robot extends IterativeRobot {
 	Joystick buttons;
 	
 	double motorSpeed;
-	boolean isActivated;
+	
+	MotorRunnable motorRunnable;
 
 	CANTalon talon4;
 
@@ -32,9 +33,12 @@ public class Robot extends IterativeRobot {
 
 		gamepad = new Joystick(0);
 		buttons = new Joystick(1);
+		
 		talon4 = new CANTalon(4);
 		talon4.set(0);
-		talon4.setInverted(false);	
+		talon4.setInverted(false);
+		
+		motorRunnable = new MotorRunnable(talon4, 0);
 	}
 
 	/**
@@ -73,7 +77,7 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void doMotorTest() {
-		if (gamepad.getRawAxis(2) > .2) {
+		/*if (gamepad.getRawAxis(2) > .2) {
 			motorSpeed -= 0.01;
 			System.out.println("Decrementing motorSpeed..." + motorSpeed);
 			motorSpeed = Math.max(-1, motorSpeed);
@@ -94,29 +98,16 @@ public class Robot extends IterativeRobot {
 		}
 
 		SmartDashboard.putNumber("Motor-motorSpeed", motorSpeed);
-		SmartDashboard.putBoolean("Motor-isActivated?", isActivated);
+		SmartDashboard.putBoolean("Motor-isActivated?", isActivated); */
 	}
 
 	public void testJoystickButtons()  {
-
-		/*if (buttons.getRawButton(1)) {
-			System.out.println("Button 1");
-			talon4.set(0);
-		} else if (buttons.getRawButton(2)) {
-			System.out.println("Button 2");
-			talon4.set(.1);
-		} else if (buttons.getRawButton(3)) {
-			System.out.println("Button 3");
-			talon4.set(.5);
-		} else if (buttons.getRawButton(4)) {
-			System.out.println("Button 4");
-			talon4.set(1);
-		} else if (buttons.getRawButton(5)) {
-			System.out.println("Button 5");
-			talon4.set(-.5);
-		} else if (buttons.getRawButton(6)) {
-			System.out.println("Button 6");
-			talon4.set(-1);
-		}*/
+		if (gamepad.getRawButton(1)) {
+			motorSpeed = 0;
+			motorRunnable.changeMotorSpeed(motorSpeed);
+		} if (gamepad.getRawButton(2)) {
+			motorSpeed = .5;
+			motorRunnable.changeMotorSpeed(motorSpeed);
+		}
 	}
 }
