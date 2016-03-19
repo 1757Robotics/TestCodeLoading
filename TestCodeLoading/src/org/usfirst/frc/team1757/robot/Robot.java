@@ -19,9 +19,9 @@ public class Robot extends IterativeRobot {
 	//Joystick gamepad;
 	Joystick buttons;
 	
-	double motorSpeed;
-	
 	MotorRunnable motorRunnable;
+	MotorRunnable motorRunnable1;
+	MotorRunnable motorRunnable2;
 
 	CANTalon talon4;
 
@@ -39,6 +39,9 @@ public class Robot extends IterativeRobot {
 		talon4.setInverted(false);
 		
 		motorRunnable = new MotorRunnable(talon4, 0);
+		motorRunnable1 = new MotorRunnable(talon4, 0);
+		motorRunnable2 = new MotorRunnable(talon4, 0);
+		
 	}
 
 	/**
@@ -103,11 +106,11 @@ public class Robot extends IterativeRobot {
 
 	public void testJoystickButtons()  {
 		if (buttons.getRawButton(1)) {
-			motorSpeed = 0;
-			motorRunnable.changeMotorSpeed(motorSpeed);
+			motorRunnable.changeMotorSpeed(0);
 		} if (buttons.getRawButton(2)) {
-			motorSpeed = .5;
-			motorRunnable.changeMotorSpeed(motorSpeed);
+			motorRunnable1.changeMotorSpeed(.5);
+		} if (buttons.getRawButton(3)) {
+			motorRunnable2.changeMotorSpeed(1);
 		}
 	}
 }

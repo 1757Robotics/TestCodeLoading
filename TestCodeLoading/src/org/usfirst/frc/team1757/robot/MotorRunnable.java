@@ -23,10 +23,12 @@ public class MotorRunnable implements Runnable {
 		try {
 			System.out.println("Sleeping for 2500 ms.");
 			Thread.sleep(2500);
+			return;
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			System.out.println("Unable to Sleep.");
 			e.printStackTrace();
+			return;
 		}
 	}
 	
