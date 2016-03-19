@@ -107,9 +107,9 @@ public class Robot extends IterativeRobot {
 	public void testJoystickButtons()  {
 		if (buttons.getRawButton(1)) {
 			motorRunnable.changeMotorSpeed(0);
-		} if (buttons.getRawButton(2)) {
+		} else if (buttons.getRawButton(2)) {
 			motorRunnable1.changeMotorSpeed(.5);
-		} if (buttons.getRawButton(3)) {
+		} else if (buttons.getRawButton(3)) {
 			motorRunnable2.changeMotorSpeed(1);
 		}
 	}
