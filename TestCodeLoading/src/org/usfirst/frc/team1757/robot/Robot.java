@@ -18,7 +18,7 @@ public class Robot extends IterativeRobot {
 
 	Joystick gamepad;
 	Joystick buttons;
-
+	
 	double motorSpeed;
 	boolean isActivated;
 
@@ -85,6 +85,9 @@ public class Robot extends IterativeRobot {
 
 		if (gamepad.getRawButton(1)) {
 			talon4.set(motorSpeed);
+		} else if (gamepad.getRawButton(2)) {
+			motorSpeed = 0;
+			talon4.set(motorSpeed);
 		} else {
 			talon4.set(0);
 			isActivated = false;
@@ -96,19 +99,24 @@ public class Robot extends IterativeRobot {
 
 	public void testJoystickButtons()  {
 
-		if (buttons.getRawButton(1)) {
+		/*if (buttons.getRawButton(1)) {
 			System.out.println("Button 1");
+			talon4.set(0);
 		} else if (buttons.getRawButton(2)) {
 			System.out.println("Button 2");
+			talon4.set(.1);
 		} else if (buttons.getRawButton(3)) {
 			System.out.println("Button 3");
+			talon4.set(.5);
 		} else if (buttons.getRawButton(4)) {
 			System.out.println("Button 4");
+			talon4.set(1);
 		} else if (buttons.getRawButton(5)) {
 			System.out.println("Button 5");
+			talon4.set(-.5);
 		} else if (buttons.getRawButton(6)) {
 			System.out.println("Button 6");
-		}  	
-		
+			talon4.set(-1);
+		}*/
 	}
 }
