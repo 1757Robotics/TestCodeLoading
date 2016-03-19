@@ -25,8 +25,8 @@ public class Robot extends IterativeRobot {
 	Joystick gamepad;
 	Joystick buttons;
 
-	double breachSpeed;
-	boolean isBreaching;
+	double motorSpeed;
+	boolean isActivated;
 
 	CANTalon talon4;
 
@@ -81,9 +81,8 @@ public class Robot extends IterativeRobot {
 	 * This function is called periodically during operator control
 	 */
 	public void teleopPeriodic() {
-		doBreach();
+		doMotorTest();
 		testJoystickButtons();
-		doClimb();
 	}
 
 	/**
@@ -93,26 +92,26 @@ public class Robot extends IterativeRobot {
 
 	}
 
-	public void doBreach() {
+	public void doMotorTest() {
 		if (gamepad.getRawAxis(2) > .2) {
-			breachSpeed -= 0.01;
-			System.out.println("Decrementing breachSpeed..." + breachSpeed);
-			breachSpeed = Math.max(-1, breachSpeed);
+			motorSpeed -= 0.01;
+			System.out.println("Decrementing motorSpeed..." + motorSpeed);
+			motorSpeed = Math.max(-1, motorSpeed);
 		} else if (gamepad.getRawAxis(3) > .2) {
-			breachSpeed += 0.01;
-			System.out.println("Incrementing breachSpeed..." + breachSpeed);
-			breachSpeed = Math.min(1, breachSpeed);
+			motorSpeed += 0.01;
+			System.out.println("Incrementing motorSpeed..." + motorSpeed);
+			motorSpeed = Math.min(1, motorSpeed);
 		} 
 
 		if (gamepad.getRawButton(1)) {
-			talon4.set(breachSpeed);
+			talon4.set(motorSpeed);
 		} else {
 			talon4.set(0);
-			isBreaching = false;
+			isActivated = false;
 		}
 
-		SmartDashboard.putNumber("Breach-breachSpeed", breachSpeed);
-		SmartDashboard.putBoolean("Breach-isBreaching?", isBreaching);
+		SmartDashboard.putNumber("Motor-motorSpeed", motorSpeed);
+		SmartDashboard.putBoolean("Motor-isActivated?", isActivated);
 	}
 
 	public void testJoystickButtons()  {
@@ -130,10 +129,6 @@ public class Robot extends IterativeRobot {
 		} else if (buttons.getRawButton(6)) {
 			System.out.println("Button 6");
 		}  	
-	}
-
-	public void doClimb() {
 		
 	}
-
 }
