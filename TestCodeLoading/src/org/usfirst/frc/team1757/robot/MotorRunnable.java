@@ -20,9 +20,9 @@ public class MotorRunnable implements Runnable {
 		// TODO Auto-generated method stub
 		//talon4.set(motorSpeed);
 
-
       thread = new Thread();
 		thread.start();
+
 		System.out.println("Pressed button. motorSpeed: " + motorSpeed);
 		System.out.println("Sleeping for 2500 ms.");
 		Timer.delay(2);
