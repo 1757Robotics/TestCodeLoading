@@ -4,7 +4,14 @@ package org.usfirst.frc.team1757.robot;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+/**
+ * NOTE: This code should work, but it should not be implemented in this way.
+ * Have a Runnable Class for each Runnable, then call (new Thread(new RUNNABLE(CONSTRUCTOR))).start();
+ * It is also possible to simplify it without any additional classes:
+ * (new Thread(new Runnable() { public void run(){CODETORUN} })).start();
+ */
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -19,9 +26,9 @@ public class Robot extends IterativeRobot {
 	//Joystick gamepad;
 	Joystick buttons;
 	
-	MotorRunnable motorRunnable;
+	/*MotorRunnable motorRunnable;
 	MotorRunnable motorRunnable1;
-	MotorRunnable motorRunnable2;
+	MotorRunnable motorRunnable2; */
 
 	CANTalon talon4;
 
@@ -38,9 +45,9 @@ public class Robot extends IterativeRobot {
 		talon4.set(0);
 		talon4.setInverted(false);
 		
-		motorRunnable = new MotorRunnable(talon4, 0);
+		/*motorRunnable = new MotorRunnable(talon4, 0);
 		motorRunnable1 = new MotorRunnable(talon4, 0);
-		motorRunnable2 = new MotorRunnable(talon4, 0);
+		motorRunnable2 = new MotorRunnable(talon4, 0);*/
 		
 	}
 
@@ -106,11 +113,11 @@ public class Robot extends IterativeRobot {
 
 	public void testJoystickButtons()  {
 		if (buttons.getRawButton(1)) {
-			motorRunnable.changeMotorSpeed(0);
+			(new Thread(new MotorRunnable(talon4, 0))).start();
 		} else if (buttons.getRawButton(2)) {
-			motorRunnable1.changeMotorSpeed(.5);
+			(new Thread(new MotorRunnable(talon4, .5))).start();
 		} else if (buttons.getRawButton(3)) {
-			motorRunnable2.changeMotorSpeed(1);
+			(new Thread(new MotorRunnable(talon4, 1))).start();
 		}
 	}
 }
