@@ -14,22 +14,29 @@ public class MotorRunnable implements Runnable {
 		this.talon4 = talon;
 		this.motorSpeed = motorSpeed;
 	}
+	
+	public void start() {
+		
+	}
 
 	@Override
 	public synchronized void run() {
 		// TODO Auto-generated method stub
-		/*talon4.set(motorSpeed);
-		thread = new Thread();
-		thread.start();*/
-
-		System.out.println("Pressed button. motorSpeed: " + motorSpeed);
-		System.out.println("Sleeping for 1.5s.");
-		Timer.delay(1.5);
-		return;
+		while (true) {
+			System.out.println("Started Thread: " + Thread.currentThread().getName());
+			System.out.println("motorSpeed: " + motorSpeed);
+			Timer.delay(1.5);
+			//Thread.wait();
+			Thread.currentThread().interrupt();
+		}
 	}
 
 	/*public void changeMotorSpeed(double motorSpeed) {
 		this.motorSpeed = motorSpeed;
 		run();
 	}*/
+	
+	public void waitUntil() {
+		
+	}
 }

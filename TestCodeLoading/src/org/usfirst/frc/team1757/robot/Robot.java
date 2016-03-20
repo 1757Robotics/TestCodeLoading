@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
 //import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.Timer;
 
 /**
  * NOTE: This code should work, but it should not be implemented in this way.
@@ -25,7 +26,7 @@ public class Robot extends IterativeRobot {
 
 	//Joystick gamepad;
 	Joystick buttons;
-	
+
 	/*MotorRunnable motorRunnable;
 	MotorRunnable motorRunnable1;
 	MotorRunnable motorRunnable2; */
@@ -40,15 +41,24 @@ public class Robot extends IterativeRobot {
 
 		//gamepad = new Joystick(0);
 		buttons = new Joystick(0);
-		
+
 		talon4 = new CANTalon(4);
 		talon4.set(0);
 		talon4.setInverted(false);
-		
+
 		/*motorRunnable = new MotorRunnable(talon4, 0);
 		motorRunnable1 = new MotorRunnable(talon4, 0);
 		motorRunnable2 = new MotorRunnable(talon4, 0);*/
+
+		t1previouslyHeld = false;
+		t2previouslyHeld = false;
+		t3previouslyHeld = false;
+		t4previouslyHeld = false;
+		t5previouslyHeld = false;
+		t6previouslyHeld = false;
 		
+		establishThreads();
+
 	}
 
 	/**
@@ -61,7 +71,7 @@ public class Robot extends IterativeRobot {
 	 * If using the SendableChooser make sure to add them to the chooser code above as well.
 	 */
 	public void autonomousInit() {
-		
+
 	}
 
 	/**
@@ -75,7 +85,7 @@ public class Robot extends IterativeRobot {
 	 * This function is called periodically during operator control
 	 */
 	public void teleopPeriodic() {
-		doMotorTest();
+		/*doMotorTest();*/
 		testJoystickButtons();
 	}
 
@@ -111,13 +121,53 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putBoolean("Motor-isActivated?", isActivated); */
 	}
 
+	Thread t1;
+	Thread t2;
+	Thread t3;
+	Thread t4;
+	Thread t5;
+	Thread t6;
+
+	boolean t1previouslyHeld;
+	boolean t2previouslyHeld;
+	boolean t3previouslyHeld;
+	boolean t4previouslyHeld;
+	boolean t5previouslyHeld;
+	boolean t6previouslyHeld;
+
 	public void testJoystickButtons()  {
 		if (buttons.getRawButton(1)) {
-			(new Thread(new MotorRunnable(talon4, 0))).start();
+			Timer.delay(.5);
+			if (!t1previouslyHeld && (t1.getState() == Thread.State.TERMINATED || t1.getState() == Thread.State.NEW)) {
+				t1.start();
+			} else {
+				thereIsAThread();
+			}
 		} else if (buttons.getRawButton(2)) {
-			(new Thread(new MotorRunnable(talon4, .5))).start();
-		} else if (buttons.getRawButton(3)) {
-			(new Thread(new MotorRunnable(talon4, 1))).start();
+			Timer.delay(.5);
+			if (!t2previouslyHeld && (t2.getState() == Thread.State.TERMINATED || t2.getState() == Thread.State.NEW)) {
+				t2.run();
+			} else {
+				thereIsAThread();
+			}
 		}
+		
+		else {
+			t1previouslyHeld = false;
+			t2previouslyHeld = false;
+			t3previouslyHeld = false;
+			t4previouslyHeld = false;
+			t5previouslyHeld = false;
+			t6previouslyHeld = false;
+		}
+	}
+
+	public void thereIsAThread() {
+		System.out.println("Thread is still alive!");
+	}
+	
+	public void establishThreads() {
+		t1 = new Thread(new MotorRunnable(talon4, 0));
+		t2 = new Thread(new MotorRunnable(talon4, .5));
 	}
 }
