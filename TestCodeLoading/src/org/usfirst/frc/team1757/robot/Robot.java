@@ -14,9 +14,16 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * directory.
  */
 
+/**
+ * POSITIVE = UP
+ * NEGATIVE = DOWN
+ * @author Larry
+ *
+ */
+
 public class Robot extends IterativeRobot {
 
-	Joystick gamepad;
+	//Joystick gamepad;
 	Joystick buttons;
 	
 	double motorSpeed;
@@ -30,8 +37,8 @@ public class Robot extends IterativeRobot {
 	 */
 	public void robotInit() {
 
-		gamepad = new Joystick(0);
-		buttons = new Joystick(1);
+		//gamepad = new Joystick(0);
+		buttons = new Joystick(0);
 		talon4 = new CANTalon(4);
 		talon4.set(0);
 		talon4.setInverted(false);	
@@ -62,7 +69,7 @@ public class Robot extends IterativeRobot {
 	 */
 	public void teleopPeriodic() {
 		doMotorTest();
-		testJoystickButtons();
+		//testJoystickButtons();
 	}
 
 	/**
@@ -73,20 +80,21 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void doMotorTest() {
-		if (gamepad.getRawAxis(2) > .2) {
+		if (buttons.getRawButton(4)) {
 			motorSpeed -= 0.01;
 			System.out.println("Decrementing motorSpeed..." + motorSpeed);
 			motorSpeed = Math.max(-1, motorSpeed);
-		} else if (gamepad.getRawAxis(3) > .2) {
+		} else if (buttons.getRawButton(5)) {
 			motorSpeed += 0.01;
 			System.out.println("Incrementing motorSpeed..." + motorSpeed);
 			motorSpeed = Math.min(1, motorSpeed);
 		} 
 
-		if (gamepad.getRawButton(1)) {
+		if (buttons.getRawButton(1)) {
 			talon4.set(motorSpeed);
-		} else if (gamepad.getRawButton(2)) {
+		} else if (buttons.getRawButton(2)) {
 			motorSpeed = 0;
+			System.out.println("motorSpeed: " + motorSpeed);
 			talon4.set(motorSpeed);
 		} else {
 			talon4.set(0);
@@ -99,24 +107,5 @@ public class Robot extends IterativeRobot {
 
 	public void testJoystickButtons()  {
 
-		/*if (buttons.getRawButton(1)) {
-			System.out.println("Button 1");
-			talon4.set(0);
-		} else if (buttons.getRawButton(2)) {
-			System.out.println("Button 2");
-			talon4.set(.1);
-		} else if (buttons.getRawButton(3)) {
-			System.out.println("Button 3");
-			talon4.set(.5);
-		} else if (buttons.getRawButton(4)) {
-			System.out.println("Button 4");
-			talon4.set(1);
-		} else if (buttons.getRawButton(5)) {
-			System.out.println("Button 5");
-			talon4.set(-.5);
-		} else if (buttons.getRawButton(6)) {
-			System.out.println("Button 6");
-			talon4.set(-1);
-		}*/
 	}
 }
