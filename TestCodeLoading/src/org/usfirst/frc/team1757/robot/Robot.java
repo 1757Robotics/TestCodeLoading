@@ -15,33 +15,58 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 
 /**
- * POSITIVE = UP
- * NEGATIVE = DOWN
+ * For motor: 
+ * positive = UP
+ * negative = DOWN
+ * 
  * @author Larry
  *
  */
 
+
+
 public class Robot extends IterativeRobot {
 
-	//Joystick gamepad;
-	Joystick buttons;
-	
-	double motorSpeed;
-	boolean isActivated;
+	Joystick gamepad;
+	MotorTypes motorTypes;
+
+	double breachMotorSpeed;
+	double climbMotorSpeed;
 
 	CANTalon talon4;
+	CANTalon talon5;
+
+	public static int BUTTON_A, BUTTON_B, BUTTON_X, BUTTON_Y;
 
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
 	 */
-	public void robotInit() {
 
-		//gamepad = new Joystick(0);
-		buttons = new Joystick(0);
+	public enum MotorTypes {
+		Breach, Climb;
+	}
+
+	public void robotInit() {
+		//CHECK BUTTON MAPPINGS AGAIN
+		//CHANGE BUTTON PORTS BELOW
+
+		BUTTON_A = 1;
+		BUTTON_B = 2;
+		BUTTON_X = 3;
+		BUTTON_Y = 4;
+
+		motorTypes = MotorTypes.Breach;
+
+		gamepad = new Joystick(0);
+
 		talon4 = new CANTalon(4);
 		talon4.set(0);
-		talon4.setInverted(false);	
+		talon4.setInverted(false);
+
+		talon5 = new CANTalon(5);
+		talon5.set(0);
+		talon5.setInverted(true);
 	}
 
 	/**
@@ -54,7 +79,7 @@ public class Robot extends IterativeRobot {
 	 * If using the SendableChooser make sure to add them to the chooser code above as well.
 	 */
 	public void autonomousInit() {
-		
+
 	}
 
 	/**
@@ -68,8 +93,9 @@ public class Robot extends IterativeRobot {
 	 * This function is called periodically during operator control
 	 */
 	public void teleopPeriodic() {
+		checkMotorMode();
+		SmartDashboard.putString("Current MotorType", motorTypes.toString());
 		doMotorTest();
-		//testJoystickButtons();
 	}
 
 	/**
@@ -79,33 +105,82 @@ public class Robot extends IterativeRobot {
 
 	}
 
-	public void doMotorTest() {
-		if (buttons.getRawButton(4)) {
-			motorSpeed -= 0.01;
-			System.out.println("Decrementing motorSpeed..." + motorSpeed);
-			motorSpeed = Math.max(-1, motorSpeed);
-		} else if (buttons.getRawButton(5)) {
-			motorSpeed += 0.01;
-			System.out.println("Incrementing motorSpeed..." + motorSpeed);
-			motorSpeed = Math.min(1, motorSpeed);
-		} 
-
-		if (buttons.getRawButton(1)) {
-			talon4.set(motorSpeed);
-		} else if (buttons.getRawButton(2)) {
-			motorSpeed = 0;
-			System.out.println("motorSpeed: " + motorSpeed);
-			talon4.set(motorSpeed);
-		} else {
-			talon4.set(0);
-			isActivated = false;
+	public void checkMotorMode() {
+		if (gamepad.getRawButton(BUTTON_A)) {
+			switch (motorTypes) {
+			case Breach:
+				motorTypes = MotorTypes.Climb;
+				System.out.println("Switched MotorType: " + motorTypes);
+				break;
+			case Climb:
+				motorTypes = MotorTypes.Breach;
+				System.out.println("Switched MotorType: " + motorTypes);
+				break;
+			}
 		}
-
-		SmartDashboard.putNumber("Motor-motorSpeed", motorSpeed);
-		SmartDashboard.putBoolean("Motor-isActivated?", isActivated);
 	}
 
-	public void testJoystickButtons()  {
+	public void doMotorTest() {
+		//CHANGE BUTTON MAPPINGS
+		switch (motorTypes) {
+		case Breach:
+			doBreach();
+			break;
+		case Climb:
+			doClimb();
+			break;
+		default: 
+			System.out.println("Error: No MotorType");
+		}
+	}
+	
+	public void doBreach() {
+		if (gamepad.getRawButton(4)) {
+			breachMotorSpeed -= 0.01;
+			System.out.println("Decrementing breachMotorSpeed..." + breachMotorSpeed);
+			breachMotorSpeed = Math.max(-1, breachMotorSpeed);
+		} else if (gamepad.getRawButton(5)) {
+			breachMotorSpeed += 0.01;
+			System.out.println("Incrementing breachMotorSpeed..." + breachMotorSpeed);
+			breachMotorSpeed = Math.min(1, breachMotorSpeed);
+		} 
 
+		if (gamepad.getRawButton(1)) {
+			talon4.set(breachMotorSpeed);
+			System.out.println("Breaching. Current breachMotorSpeed: " + breachMotorSpeed);
+		} else if (gamepad.getRawButton(2)) {
+			breachMotorSpeed = 0;
+			System.out.println("breachMotorSpeed: " + breachMotorSpeed);
+			talon4.set(breachMotorSpeed);
+		} else {
+			talon4.set(0);
+		}
+
+		SmartDashboard.putNumber("Breach-breachMotorSpeed", breachMotorSpeed);
+	}
+	
+	public void doClimb() {
+		if (gamepad.getRawButton(4)) {
+			climbMotorSpeed -= 0.01;
+			System.out.println("Decrementing climbMotorSpeed..." + climbMotorSpeed);
+			climbMotorSpeed = Math.max(-1, climbMotorSpeed);
+		} else if (gamepad.getRawButton(5)) {
+			climbMotorSpeed += 0.01;
+			System.out.println("Incrementing climbMotorSpeed..." + climbMotorSpeed);
+			climbMotorSpeed = Math.min(1, climbMotorSpeed);
+		} 
+
+		if (gamepad.getRawButton(1)) {
+			talon5.set(climbMotorSpeed);
+			System.out.println("Climbing. Current climbMotorSpeed: " + climbMotorSpeed);
+		} else if (gamepad.getRawButton(2)) {
+			climbMotorSpeed = 0;
+			System.out.println("climbMotorSpeed: " + climbMotorSpeed);
+			talon5.set(climbMotorSpeed);
+		} else {
+			talon5.set(0);
+		}
+
+		SmartDashboard.putNumber("climb-climbMotorSpeed", climbMotorSpeed);
 	}
 }
