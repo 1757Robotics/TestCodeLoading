@@ -45,5 +45,4 @@ public class Breach {
 		System.out.println("Breaching. Current breachMotorSpeed: " + breachMotorSpeed);
 		SmartDashboard.putNumber("Breach-breachMotorSpeed", breachMotorSpeed);
 	}
-	
 }

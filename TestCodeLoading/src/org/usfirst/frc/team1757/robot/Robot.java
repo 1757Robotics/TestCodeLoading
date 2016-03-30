@@ -52,9 +52,7 @@ public class Robot extends IterativeRobot {
 	 */
 
 	public void robotInit() {
-		//CHECK BUTTON MAPPINGS AGAIN
-		//CHANGE BUTTON PORTS BELOW
-		
+	
 		breach = new Breach();
 		climb = new Climb();
 
@@ -135,7 +133,6 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void doMotorTest() {
-		//CHANGE BUTTON MAPPINGS
 		switch (motorTypes) {
 		case Breach:
 			doBreach();
