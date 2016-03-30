@@ -3,6 +3,7 @@ package org.usfirst.frc.team1757.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Timer;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -31,7 +32,14 @@ public class Robot extends IterativeRobot {
 	Breach breach;
 	Climb climb;
 
-	public static int BUTTON_A, BUTTON_B, BUTTON_X, BUTTON_Y;
+	public static int 
+	BUTTON_A, BUTTON_B, BUTTON_X, 
+	BUTTON_Y, BUTTON_LB, BUTTON_RB, 
+	BUTTON_START, BUTTON_BACK,  
+	BUTTON_LS, BUTTON_RS,  
+	AXIS_X, AXIS_Y, AXIS_RSX, AXIS_RSY, 
+	AXIS_LT, AXIS_RT; 
+
 	
 	public enum MotorTypes {
 		Breach, Climb;
@@ -54,6 +62,19 @@ public class Robot extends IterativeRobot {
 		BUTTON_B = 2;
 		BUTTON_X = 3;
 		BUTTON_Y = 4;
+		BUTTON_LB = 5;
+		BUTTON_RB = 6;
+		BUTTON_START = 8;
+		BUTTON_BACK = 7;
+		BUTTON_LS = 9;
+		BUTTON_RS = 10;
+		
+		AXIS_X = 0;
+		AXIS_Y = 1;
+		AXIS_RSX = 2;
+		AXIS_RSY = 5;
+		AXIS_LT = 2;
+		AXIS_RT = 3; 
 
 		motorTypes = MotorTypes.Breach;
 
@@ -97,15 +118,17 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void checkMotorMode() {
-		if (gamepad.getRawButton(BUTTON_A)) {
+		if (gamepad.getRawButton(BUTTON_START)) {
 			switch (motorTypes) {
 			case Breach:
 				motorTypes = MotorTypes.Climb;
 				System.out.println("Switched MotorType: " + motorTypes);
+				Timer.delay(.5);
 				break;
 			case Climb:
 				motorTypes = MotorTypes.Breach;
 				System.out.println("Switched MotorType: " + motorTypes);
+				Timer.delay(.5);
 				break;
 			}
 		}
@@ -126,15 +149,15 @@ public class Robot extends IterativeRobot {
 	}
 	
 	public void doBreach() {
-		if (gamepad.getRawButton(4)) {
+		if (gamepad.getRawAxis(AXIS_LT) > .2) {
 			breach.downBreach();
-		} else if (gamepad.getRawButton(5)) {
+		} else if (gamepad.getRawAxis(AXIS_RT) > .2) {
 			breach.upBreach();
 		} 
 
-		if (gamepad.getRawButton(1)) {
+		if (gamepad.getRawButton(BUTTON_A)) {
 			breach.doBreach();
-		} else if (gamepad.getRawButton(2)) {
+		} else if (gamepad.getRawButton(BUTTON_B)) {
 			breach.resetBreach();
 		} else {
 			breach.stopBreach();
@@ -142,15 +165,15 @@ public class Robot extends IterativeRobot {
 	}
 	
 	public void doClimb() {
-		if (gamepad.getRawButton(4)) {
+		if (gamepad.getRawAxis(AXIS_LT) > .2) {
 			climb.downClimb();
-		} else if (gamepad.getRawButton(5)) {
+		} else if (gamepad.getRawAxis(AXIS_RT) > .2) {
 			climb.upClimb();
 		} 
 
-		if (gamepad.getRawButton(1)) {
+		if (gamepad.getRawButton(BUTTON_A)) {
 			climb.doClimb();
-		} else if (gamepad.getRawButton(2)) {
+		} else if (gamepad.getRawButton(BUTTON_B)) {
 			climb.resetClimb();
 		} else {
 			climb.stopClimb();

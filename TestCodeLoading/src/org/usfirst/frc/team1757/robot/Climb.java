@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1757.robot;
 
 import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Climb {
@@ -36,6 +37,7 @@ public class Climb {
 		System.out.println("climbMotorSpeed: " + climbMotorSpeed);
 		talon.set(climbMotorSpeed);
 		SmartDashboard.putNumber("climb-climbMotorSpeed", climbMotorSpeed);
+		Timer.delay(.5);
 	}
 	
 	public void doClimb() {

@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1757.robot;
 
 import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Breach {
@@ -36,6 +37,7 @@ public class Breach {
 		System.out.println("breachMotorSpeed: " + breachMotorSpeed);
 		talon.set(breachMotorSpeed);
 		SmartDashboard.putNumber("Breach-breachMotorSpeed", breachMotorSpeed);
+		Timer.delay(.5);
 	}
 	
 	public void doBreach() {
