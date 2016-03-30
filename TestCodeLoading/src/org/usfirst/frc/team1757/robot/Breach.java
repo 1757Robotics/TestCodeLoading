@@ -6,8 +6,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Breach {
 	
-	private CANTalon talon;
-	private double breachMotorSpeed;
+	private static CANTalon talon;
+	private float breachMotorSpeed;
 	
 	public Breach() {
 		talon = new CANTalon(4);
@@ -17,14 +17,14 @@ public class Breach {
 	
 	public void downBreach() {
 		breachMotorSpeed -= 0.01;
-		System.out.println("Decrementing breachMotorSpeed..." + breachMotorSpeed);
 		breachMotorSpeed = Math.max(-1, breachMotorSpeed);
+		System.out.println("Decrementing breachMotorSpeed..." + breachMotorSpeed);
 	}
 	
 	public void upBreach() {
 		breachMotorSpeed += 0.01;
-		System.out.println("Incrementing breachMotorSpeed..." + breachMotorSpeed);
 		breachMotorSpeed = Math.min(1, breachMotorSpeed);
+		System.out.println("Incrementing breachMotorSpeed..." + breachMotorSpeed);
 	}
 	
 	public void stopBreach() {

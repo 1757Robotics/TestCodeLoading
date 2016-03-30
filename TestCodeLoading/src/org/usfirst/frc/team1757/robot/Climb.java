@@ -6,8 +6,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Climb {
 	
-	private CANTalon talon;
-	private double climbMotorSpeed;
+	private static CANTalon talon;
+	private float climbMotorSpeed;
 	
 	public Climb() {
 		talon = new CANTalon(4);
@@ -17,14 +17,14 @@ public class Climb {
 	
 	public void downClimb() {
 		climbMotorSpeed -= 0.01;
-		System.out.println("Decrementing climbMotorSpeed..." + climbMotorSpeed);
 		climbMotorSpeed = Math.max(-1, climbMotorSpeed);
+		System.out.println("Decrementing climbMotorSpeed..." + climbMotorSpeed);
 	}
 	
 	public void upClimb() {
 		climbMotorSpeed += 0.01;
-		System.out.println("Incrementing climbMotorSpeed..." + climbMotorSpeed);
 		climbMotorSpeed = Math.min(1, climbMotorSpeed);
+		System.out.println("Incrementing climbMotorSpeed..." + climbMotorSpeed);
 	}
 	
 	public void stopClimb() {
@@ -42,7 +42,7 @@ public class Climb {
 	
 	public void doClimb() {
 		talon.set(climbMotorSpeed);
-		System.out.println("climbing. Current climbMotorSpeed: " + climbMotorSpeed);
+		System.out.println("Climbing. Current climbMotorSpeed: " + climbMotorSpeed);
 		SmartDashboard.putNumber("climb-climbMotorSpeed", climbMotorSpeed);
 	}
 }
